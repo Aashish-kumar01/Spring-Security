@@ -1,5 +1,6 @@
 package com.SpringSec.SprngScrtyFirst.service;
 
+import com.SpringSec.SprngScrtyFirst.model.UserPrincipal;
 import com.SpringSec.SprngScrtyFirst.model.Users;
 import com.SpringSec.SprngScrtyFirst.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = repo.findByUsername(username);
-        return null;
+        if(user == null){
+            System.out.println("User not Found");
+            throw new UsernameNotFoundException("user not found");
+        }
+        return new UserPrincipal(user);
     }
 }
